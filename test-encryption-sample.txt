@@ -1,0 +1,46 @@
+=====================================================
+  SENTINELVAULT ENCRYPTION TEST DOCUMENT
+  Classification: TOP SECRET / EYES ONLY
+=====================================================
+
+Document ID   : SV-TEST-2026-0801
+Created By    : Security Engineering Team
+Purpose       : Verify Hybrid Envelope Cryptography Pipeline
+
+-----------------------------------------------------
+SECTION 1: PLAINTEXT VERIFICATION STRING
+-----------------------------------------------------
+If you can read this after uploading to SentinelVault,
+it means the file was successfully:
+
+  1. Encrypted with AES-256-GCM (symmetric bulk encryption)
+  2. DEK wrapped with RSA-2048 OAEP (asymmetric key wrapping)
+  3. Stored as ciphertext on disk (.vault file)
+  4. Auth Tag generated for AEAD integrity verification
+  5. Merkle audit log entry created with SHA-256 chaining
+
+And upon download, it was:
+  1. RSA private key unlocked via PBKDF2 passphrase
+  2. Wrapped DEK unwrapped using RSA-OAEP
+  3. Ciphertext decrypted using AES-256-GCM with IV + Auth Tag
+  4. Plaintext integrity verified via GCM authentication
+
+-----------------------------------------------------
+SECTION 2: SAMPLE SENSITIVE DATA (FICTIONAL)
+-----------------------------------------------------
+Credit Card   : 4532-XXXX-XXXX-7891
+SSN           : XXX-XX-6789
+API Key       : sk_live_test_4eC39HqLyjWDarjtT1zdp7dc
+DB Password   : S3nt!n3lVault_Pr0d_2026!
+Private Token : eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.test
+
+-----------------------------------------------------
+SECTION 3: INTEGRITY CHECK
+-----------------------------------------------------
+SHA-256 of this document (pre-encryption):
+  This value should match after decrypt round-trip.
+  Any single bit change = GCM auth tag verification failure.
+
+Timestamp: 2026-08-01T17:06:00+05:30
+Status: READY FOR ENCRYPTION TEST
+=====================================================
